@@ -3,95 +3,69 @@ import { Link, useNavigate } from "react-router-dom";
 import { showIndigoToast } from "../Component/IndigoToast.jsx";
 
 export default function Navbar() {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [sideOpen, setSideOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  // Load user once
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
 
-    // 🔥 Listen for "storage" updates (logout anywhere)
     const syncUser = () => {
       setUser(JSON.parse(localStorage.getItem("user")));
     };
 
     window.addEventListener("storage", syncUser);
-
     return () => window.removeEventListener("storage", syncUser);
   }, []);
 
-  // SignOut Function
   const handleSignOut = () => {
     localStorage.removeItem("user");
-
-    // 🔥 Notify the entire app (Profile & Navbar)
     window.dispatchEvent(new Event("storage"));
-
     setUser(null);
     setProfileOpen(false);
     navigate("/login");
 
-    setTimeout(() => {
-      showIndigoToast("Logout Successfully", "success");
-    }, 300);
+    setTimeout(() => showIndigoToast("Logout Successfully", "success"), 300);
   };
 
   return (
-    <header className="w-full font-dispaly bg-white shadow-sm">
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          {/* Logo */}
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center gap-3">
-              {/* <img
-                src="/taskify.png" 
-                alt="Taskly Logo"
-                className="h-12 w-20 object-cover" 
-              /> */}
+    <>
+      {/* NAVBAR */}
+      <header className="w-full font-dispaly bg-white shadow-sm fixed top-0 left-0 z-40">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
 
-              <span className="hidden sm:inline-block text-blue-700 font-semibold text-2xl">
-                Taskify
-              </span>
+          {/* Left - LOGO */}
+          <Link to="/" className="flex items-center gap-3">
+            <span className="text-blue-700 font-semibold text-2xl">
+              Taskify
+            </span>
+          </Link>
+
+          {/* Center - Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-6">
+            <Link to="/dashboard" className="text-[18px] text-gray-700 hover:text-indigo-600">
+              Dashboard
+            </Link>
+            <Link to="/" className="text-[18px] text-gray-700 hover:text-indigo-600">
+              Tasks
+            </Link>
+            <Link to="/calendar" className="text-[18px] text-gray-700 hover:text-indigo-600">
+              Calendar
             </Link>
 
-            {/* Links */}
-            <div className="hidden  md:flex md:ml-8 md:space-x-4">
-              <Link
-                to="/dashboard"
-                className="px-3 py-2 text-[18px] text-gray-700 hover:bg-gray-100"
-              >
-                Dashboard
-              </Link>
-              <Link
-                to="/"
-                className="px-3 py-2 text-[18px] text-gray-700 hover:bg-gray-100"
-              >
-                Tasks
-              </Link>
-              <Link
-                to="/calendar"
-                className="px-3 py-2 text-[18px] text-gray-700 hover:bg-gray-100"
-              >
-                Calendar
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Section */}
-          <div className="flex items-center gap-4">
-            {/* Add Task Btn */}
             {user && (
               <Link
                 to="/add"
-                className="hidden sm:inline-flex px-3 py-2 bg-indigo-600 text-white rounded-md text-[18px] hover:bg-indigo-700"
+                className="px-3 py-2 bg-indigo-600 text-white rounded-md text-[18px] hover:bg-indigo-700"
               >
                 New Task
               </Link>
             )}
+          </div>
 
-            {/* If not logged in */}
+          {/* Right - Desktop User */}
+          <div className="hidden md:flex items-center gap-3">
             {!user ? (
               <Link
                 to="/signup"
@@ -113,7 +87,7 @@ export default function Navbar() {
                 </button>
 
                 {profileOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-md shadow-md py-1 z-30">
+                  <div className="absolute right-0 mt-2 w-48 bg-white border shadow-md rounded-md py-1 z-50">
                     <Link
                       to="/profile"
                       className="block px-4 py-2 text-[18px] text-gray-700 hover:bg-gray-50"
@@ -121,12 +95,10 @@ export default function Navbar() {
                     >
                       Profile
                     </Link>
-
-                    <div className="border-t my-1" />
-
+                    <div className="border-t" />
                     <button
                       onClick={handleSignOut}
-                      className="block w-full text-left px-4 py-2 text-[18px] text-red-600 hover:bg-gray-50"
+                      className="w-full text-left px-4 py-2 text-[18px] text-red-600 hover:bg-gray-50"
                     >
                       Sign Out
                     </button>
@@ -134,64 +106,74 @@ export default function Navbar() {
                 )}
               </div>
             )}
-
-            {/* Mobile Menu */}
-            <div className="md:hidden -mr-2">
-              <button
-                onClick={() => setMobileOpen(!mobileOpen)}
-                className="p-2 rounded-md hover:bg-gray-100"
-              >
-                {mobileOpen ? "✖" : "☰"}
-              </button>
-            </div>
           </div>
+
+          {/* Right - MOBILE Hamburger */}
+          <button
+            className="md:hidden p-3 text-2xl"
+            onClick={() => setSideOpen(true)}
+          >
+            ☰
+          </button>
+        </nav>
+      </header>
+
+      {/* MOBILE SIDE MENU */}
+      <div
+        className={`fixed top-0 left-0 h-full w-64 bg-white shadow-2xl z-50 transform 
+          ${sideOpen ? "translate-x-0" : "-translate-x-full"} 
+          transition-transform duration-300`}
+      >
+        <div className="p-5 flex justify-between items-center border-b">
+          <span className="text-xl font-bold text-indigo-700">Menu</span>
+          <button className="text-2xl" onClick={() => setSideOpen(false)}>
+            ✖
+          </button>
         </div>
 
-        {/* Mobile Menu */}
-        {mobileOpen && (
-          <div className="md:hidden border-t border-gray-100">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              <Link
-                to="/dashboard"
-                className="block px-3 py-2 hover:bg-gray-50"
-              >
-                Dashboard
-              </Link>
-              <Link to="/" className="block px-3 py-2 hover:bg-gray-50">
-                Tasks
-              </Link>
-              <Link to="/calendar" className="block px-3 py-2 hover:bg-gray-50">
-                Calendar
-              </Link>
+        <div className="p-4 space-y-3">
+          <Link to="/dashboard" onClick={() => setSideOpen(false)} className="block text-lg hover:text-indigo-600">
+            Dashboard
+          </Link>
+          <Link to="/" onClick={() => setSideOpen(false)} className="block text-lg hover:text-indigo-600">
+            Tasks
+          </Link>
+          <Link to="/calendar" onClick={() => setSideOpen(false)} className="block text-lg hover:text-indigo-600">
+            Calendar
+          </Link>
 
-              {user && (
-                <Link to="/add" className="block px-3 py-2 hover:bg-gray-50">
-                  Add Task
-                </Link>
-              )}
+          {user && (
+            <Link to="/add" onClick={() => setSideOpen(false)} className="block text-lg hover:text-indigo-600">
+              Add Task
+            </Link>
+          )}
 
-              {!user ? (
-                <Link
-                  to="/login"
-                  className="block px-3 py-2 text-indigo-600 font-medium"
-                >
-                  Login
-                </Link>
-              ) : (
-                <>
-                  <div className="border-t mt-2" />
-                  <button
-                    onClick={handleSignOut}
-                    className="block w-full text-left px-3 py-2 text-red-600 hover:bg-gray-50"
-                  >
-                    Sign Out
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        )}
-      </nav>
-    </header>
+          <div className="border-t pt-3" />
+
+          {!user ? (
+            <Link to="/login" onClick={() => setSideOpen(false)} className="block text-lg text-indigo-600">
+              Login
+            </Link>
+          ) : (
+            <button
+              className="block text-left text-lg text-red-600"
+              onClick={() => {
+                handleSignOut();
+                setSideOpen(false);
+              }}
+            >
+              Sign Out
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Dark overlay when menu is open */}
+      {sideOpen && (
+        <div
+          onClick={() => setSideOpen(false)}
+        />
+      )}
+    </>
   );
 }
