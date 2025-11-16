@@ -19,7 +19,7 @@ const Task = () => {
 
   const fetchTasks = async () => {
     try {
-      const res = await fetch("https://taskify-ubrv.onrender.com/api/task/my-tasks", {
+      const res = await fetch("http://localhost:3000/api/task/my-tasks", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -49,7 +49,7 @@ const Task = () => {
   const handleComplete = async (taskId) => {
     try {
       const res = await fetch(
-        `https://taskify-ubrv.onrender.com/api/task/complete/${taskId}`,
+        `http://localhost:3000/api/task/complete/${taskId}`,
         {
           method: "PUT",
           headers: {
@@ -78,7 +78,7 @@ const Task = () => {
   const handleDelete = async (taskId) => {
     try {
       const res = await fetch(
-        `https://taskify-ubrv.onrender.com/api/task/delete/${taskId}`,
+        `http://localhost:3000/api/task/delete/${taskId}`,
         {
           method: "DELETE",
           headers: {

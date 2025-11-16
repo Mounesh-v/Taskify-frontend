@@ -36,7 +36,7 @@ const AddTask = () => {
     }
 
     try {
-      const res = await fetch("https://taskify-ubrv.onrender.com/api/task/add", {
+      const res = await fetch("http://localhost:3000/api/task/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

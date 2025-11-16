@@ -10,7 +10,6 @@ import { Routes, Route } from "react-router-dom";
 import AddTask from "../Component/AddTask";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Footer from "../Component/Footer";
 
 const Home = () => {
   return (
@@ -39,7 +38,6 @@ const Home = () => {
           }
         />
       </Routes>
-      <Footer/>
     </>
   );
 };

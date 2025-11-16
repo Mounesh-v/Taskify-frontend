@@ -12,7 +12,7 @@ const Dashboard = () => {
 
   const fetchTasks = async () => {
     try {
-      const res = await fetch("https://taskify-ubrv.onrender.com/api/task/my-tasks", {
+      const res = await fetch("http://localhost:3000/api/task/my-tasks", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -46,7 +46,7 @@ const Dashboard = () => {
   const handleComplete = async (taskId) => {
     try {
       const res = await fetch(
-        `https://taskify-ubrv.onrender.com/api/task/complete/${taskId}`,
+        `http://localhost:3000/api/task/complete/${taskId}`,
         {
           method: "PUT",
           headers: {

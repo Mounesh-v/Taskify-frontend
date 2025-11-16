@@ -20,7 +20,7 @@ const Signup = () => {
   const handleSubmit = async () => {
     try {
       const res = await axios.post(
-        "https://taskify-ubrv.onrender.com/api/user/signup",
+        "http://localhost:3000/api/user/signup",
         form
       );
 
