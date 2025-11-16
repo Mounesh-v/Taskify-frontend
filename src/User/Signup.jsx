@@ -20,7 +20,7 @@ const Signup = () => {
   const handleSubmit = async () => {
     try {
       const res = await axios.post(
-        "https://taskify-svrt.onrender.com/api/user/signup",
+        "https://taskify-1-5hk3.onrender.com/api/user/signup",
         form
       );
 
