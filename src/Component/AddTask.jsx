@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { showIndigoToast } from "../Component/IndigoToast";
-
+const API = import.meta.env.VITE_API_URL;
 const AddTask = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ const AddTask = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/task/add", {
+      const res = await fetch(`${API}/api/task/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

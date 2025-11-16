@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { showIndigoToast } from "../Component/IndigoToast.jsx";
-
+const API = import.meta.env.VITE_API_URL;
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const Signup = () => {
   const handleSubmit = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/user/signup",
+        `${API}/api/user/signup`,
         form
       );
 

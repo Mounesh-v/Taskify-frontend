@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ProductivityChart from "./ProductivityChart";
 import { showIndigoToast } from "../Component/IndigoToast";
+const API = import.meta.env.VITE_API_URL;
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
@@ -12,7 +13,7 @@ const Dashboard = () => {
 
   const fetchTasks = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/task/my-tasks", {
+      const res = await fetch(`${API}/api/task/my-tasks`, {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -46,7 +47,7 @@ const Dashboard = () => {
   const handleComplete = async (taskId) => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/task/complete/${taskId}`,
+        `${API}/api/task/complete/${taskId}`,
         {
           method: "PUT",
           headers: {

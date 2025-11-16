@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { showIndigoToast } from "../Component/IndigoToast";
+const API = import.meta.env.VITE_API_URL;
 
 const Task = () => {
   const [tasks, setTasks] = useState([]);
@@ -19,7 +20,7 @@ const Task = () => {
 
   const fetchTasks = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/task/my-tasks", {
+      const res = await fetch(`${API}/api/task/my-tasks`, {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -49,7 +50,7 @@ const Task = () => {
   const handleComplete = async (taskId) => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/task/complete/${taskId}`,
+        `${API}/api/task/complete/${taskId}`,
         {
           method: "PUT",
           headers: {
@@ -78,7 +79,7 @@ const Task = () => {
   const handleDelete = async (taskId) => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/task/delete/${taskId}`,
+        `${API}/api/task/delete/${taskId}`,
         {
           method: "DELETE",
           headers: {
