@@ -151,7 +151,7 @@ export default function Navbar() {
         {mobileOpen && (
           <div className="md:hidden border-t border-gray-100">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              \
+              
               <Link
                 to="/dashboard"
                 className="block px-3 py-2 hover:bg-gray-50"
